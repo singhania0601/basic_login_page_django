@@ -5,16 +5,17 @@ from django.contrib.auth import authenticate,logout,login
 # Create your views here.
 
 def index(request):
+    print(request.user)
     if request.user.is_anonymous:
         return redirect("/login")
-    return render(request,'/index.html')
+    return render(request,'index.html')
     
 def loginUser(request):
-    if request.method == "POST":
-        u = request.POST.get('u')
-        p = request.POST.get('p')
-        print(u,p)
-        user = authenticate(request,username=u, password=p)
+    if request.method=="POST":
+        username = request.POST.get('username','')
+        password = request.POST.get('password','')
+        print(username,password)
+        user = authenticate(request,username=username, password=password)
         
         if user is not None:
             login(request,user)
